@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: pggk
+    image: postgres:alpine
+    volumes:
+      - ./dump:/dump
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: gk
+      POSTGRES_USER: gk
+      POSTGRES_PASSWORD: 7766gm
+
+volumes:
+  data01:
+    driver: local
+  uploads:
