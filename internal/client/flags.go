@@ -34,7 +34,6 @@ func (c Command) NeedAuth() bool {
 }
 
 var (
-	empty     = "\x00"
 	commmands = []Command{
 		CommandSignup,
 		CommandAdd,
@@ -47,7 +46,7 @@ var (
 )
 
 var (
-	// ErrInvalidCommand raized if unknown command in flag -c
+	// ErrInvalidCommand raised if unknown command in flag -c
 	ErrInvalidCommand = errors.New("invalid command")
 )
 

@@ -24,8 +24,7 @@ func newSignupRequest() (*SignupRequest, error) {
 	return &cred, nil
 }
 
-// Signup register new customer in remote server
-func (c *GkClient) Signup() error {
+func (c *GkClient) signup() error {
 	cred, err := newSignupRequest()
 	b, err := json.Marshal(cred)
 	if err != nil {

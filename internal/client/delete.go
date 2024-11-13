@@ -8,8 +8,7 @@ import (
 	"time"
 )
 
-// DeleteEntity download binary file by GUID
-func (c *GkClient) DeleteEntity() error {
+func (c *GkClient) deleteEntity() error {
 	var err error
 	guid := ""
 	fmt.Print("Enter GUID of deleting entity: ")

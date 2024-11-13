@@ -1,7 +1,9 @@
 package client
 
 import (
+	"crypto/tls"
 	"fmt"
+	"net/http"
 	"os"
 )
 
@@ -20,6 +22,7 @@ type SignupRequest struct {
 // GkClient strict of client
 type GkClient struct {
 	Conf  *Config
+	Tls   *tls.Config
 	token string
 }
 
@@ -29,11 +32,17 @@ func (c *GkClient) auth() error {
 	if err != nil {
 		return err
 	}
-	c.token, err = c.Signin(c.Conf.Username, c.Conf.Password)
+	c.token, err = c.signin(c.Conf.Username, c.Conf.Password)
 	if err != nil {
 		return err
 	}
 	return nil
+}
+
+func (c *GkClient) getTransport() *http.Transport {
+	return &http.Transport{
+		TLSClientConfig: c.Tls,
+	}
 }
 
 // Run start client
@@ -46,19 +55,19 @@ func (c *GkClient) Run() error {
 	}
 	switch c.Conf.Command {
 	case CommandSignup:
-		return c.Signup()
+		return c.signup()
 	case CommandAdd:
-		return c.Add()
+		return c.add()
 	case CommandList:
-		return c.ListEntities()
+		return c.listEntities()
 	case CommandView:
-		return c.ViewEntity()
+		return c.viewEntity()
 	case CommandUpload:
-		return c.UploadEntity()
+		return c.uploadEntity()
 	case CommandDownload:
-		return c.DownloadEntity()
+		return c.downloadEntity()
 	case CommandDel:
-		return c.DeleteEntity()
+		return c.deleteEntity()
 	}
 	return nil
 }

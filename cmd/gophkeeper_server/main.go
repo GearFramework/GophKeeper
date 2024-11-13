@@ -15,7 +15,6 @@ import (
 var (
 	buildVersion string = "0.0.1"
 	buildDate    string = time.Date(2024, 11, 10, 16, 14, 0, 0, time.UTC).Format(time.RFC3339)
-	buildCommit  string = "1"
 )
 
 func stringBuild(b string) string {
@@ -26,10 +25,9 @@ func stringBuild(b string) string {
 }
 
 func printGreeting() {
-	fmt.Printf("Build version: %s\nBuild date: %s\nBuild commit: %s\n",
+	fmt.Printf("Build version: %s\nBuild date: %s\n",
 		stringBuild(buildVersion),
 		stringBuild(buildDate),
-		stringBuild(buildCommit),
 	)
 }
 

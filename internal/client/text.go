@@ -5,14 +5,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/GearFramework/GophKeeper/internal/gk"
-	"github.com/GearFramework/GophKeeper/internal/pkg/model"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/GearFramework/GophKeeper/internal/gk"
+	"github.com/GearFramework/GophKeeper/internal/pkg/model"
 )
 
 func newEntityText() (*gk.UploadEntityRequest, error) {

@@ -12,7 +12,7 @@ var (
 )
 
 // Add new entity into remote server
-func (c *GkClient) Add() error {
+func (c *GkClient) add() error {
 	t := model.EntityType(c.Conf.Type)
 	if t == model.Credentials {
 		return c.addCredentials()

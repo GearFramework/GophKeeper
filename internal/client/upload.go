@@ -12,8 +12,7 @@ import (
 	"time"
 )
 
-// UploadEntity binary file
-func (c *GkClient) UploadEntity() error {
+func (c *GkClient) uploadEntity() error {
 	var err error
 	fp := ""
 	guid := ""
@@ -68,7 +67,7 @@ func (c *GkClient) sendBinaryData(fp string, guid string) error {
 		return err
 	}
 	httpClient := &http.Client{
-		Timeout: 3 * time.Second,
+		Timeout: 180 * time.Second,
 	}
 	req, err := http.NewRequest("PUT", c.Conf.Addr+"/v1/entities/"+guid, &fileBody)
 	if err != nil {

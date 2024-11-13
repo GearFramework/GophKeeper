@@ -1,15 +1,18 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"errors"
 	"fmt"
-	"log"
-
 	"github.com/GearFramework/GophKeeper/internal/client"
+	"log"
+	"os"
 )
 
 func printUsage() {
-	fmt.Println(`Usage: 
+	fmt.Print(`
+Usage: 
 	gophkeeper [arguments]
 
 The arguments are:
@@ -36,7 +39,27 @@ var (
 	errInvalidFlags = errors.New("invalid flags")
 )
 
+var (
+	BuildVersion string
+	BuildDate    string
+)
+
+func stringBuild(b string) string {
+	if b == "" {
+		return "N/A"
+	}
+	return b
+}
+
+func printGreeting() {
+	fmt.Printf("Build version: %s\nBuild date: %s\n",
+		stringBuild(BuildVersion),
+		stringBuild(BuildDate),
+	)
+}
+
 func main() {
+	printGreeting()
 	if err := run(); err != nil {
 		if errors.Is(err, errInvalidFlags) {
 			printUsage()
@@ -51,11 +74,31 @@ func run() error {
 	if err != nil {
 		return errInvalidFlags
 	}
+	tlsConf, err := getTLSConfig()
+	if err != nil {
+		return err
+	}
 	c := client.GkClient{
 		Conf: fl,
+		Tls:  tlsConf,
 	}
 	if err != nil {
 		return err
 	}
 	return c.Run()
+}
+
+var tlsCertFile = ".cert/certbundle.pem"
+
+func getTLSConfig() (*tls.Config, error) {
+	//http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	caCert, err := os.ReadFile(tlsCertFile)
+	if err != nil {
+		return nil, err
+	}
+	caCertPool := x509.NewCertPool()
+	caCertPool.AppendCertsFromPEM(caCert)
+	return &tls.Config{
+		RootCAs: caCertPool,
+	}, nil
 }

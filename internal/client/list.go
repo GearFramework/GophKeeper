@@ -17,8 +17,7 @@ const (
 	splitLine  = "---------------------------------------- -------------------- ----------------------------------------"
 )
 
-// ListEntities display entities list
-func (c *GkClient) ListEntities() error {
+func (c *GkClient) listEntities() error {
 	resp, err := c.getList()
 	if err != nil {
 		return err

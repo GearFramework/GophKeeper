@@ -27,14 +27,14 @@ func scanSigninCredentials(username string) (string, string, error) {
 	return username, password, nil
 }
 
-// Signin authority in remote server
-func (c *GkClient) Signin(username, password string) (string, error) {
+func (c *GkClient) signin(username, password string) (string, error) {
 	b, err := json.Marshal(SigninRequest{username, password})
 	if err != nil {
 		return "", err
 	}
 	httpClient := &http.Client{
-		Timeout: 3 * time.Second,
+		Timeout:   3 * time.Second,
+		Transport: c.getTransport(),
 	}
 	req, err := http.NewRequest(
 		"POST", c.Conf.Addr+"/v1/signin", bytes.NewReader(b),

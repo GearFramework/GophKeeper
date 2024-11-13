@@ -40,14 +40,21 @@ func (s *Server) Init() error {
 
 // Up REST server
 func (s *Server) Up() error {
-	logger.Log.Infof("up REST server on %s", s.conf.Addr)
+	return s.upTLS()
+}
+
+var tlsCertFile = ".cert/certbundle.pem"
+var tlsKeyFile = ".cert/server.key"
+
+func (s *Server) upTLS() error {
 	s.http = &http.Server{
 		Addr:    s.conf.Addr,
 		Handler: s.api.GetRouter().(*gin.Engine),
 	}
-	err := s.http.ListenAndServe()
+	logger.Log.Infof("Start HTTPS server at the %s\n", s.conf.Addr)
+	err := s.api.GetRouter().(*gin.Engine).RunTLS(s.conf.Addr, tlsCertFile, tlsKeyFile)
 	if err != nil {
-		logger.Log.Errorf("failed: %s", err.Error())
+		logger.Log.Infof("Failed to Listen and Serve HTTPS: %v\n", err)
 		return err
 	}
 	return nil

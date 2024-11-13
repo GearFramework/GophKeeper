@@ -11,8 +11,7 @@ import (
 	"time"
 )
 
-// DownloadEntity download binary file by GUID
-func (c *GkClient) DownloadEntity() error {
+func (c *GkClient) downloadEntity() error {
 	var err error
 	dest := ""
 	guid := ""
@@ -33,7 +32,7 @@ func (c *GkClient) DownloadEntity() error {
 		return err
 	}
 	httpClient := &http.Client{
-		Timeout: 3 * time.Second,
+		Timeout: 180 * time.Second,
 	}
 	req, err := http.NewRequest(
 		"GET", c.Conf.Addr+"/v1/entities/download/"+guid, nil,

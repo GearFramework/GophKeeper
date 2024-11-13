@@ -34,9 +34,6 @@ func (ent *Entity) GetFilename(mountPath string) string {
 	if ent.Type == BinaryData {
 		return mountPath + "/" + ent.GUID + ent.Attr.Binary.Extension
 	}
-	if ent.Type == PlainText {
-		return mountPath + "/" + ent.GUID + ".txt"
-	}
 	return ""
 }
 

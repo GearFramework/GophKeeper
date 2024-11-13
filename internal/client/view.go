@@ -12,8 +12,7 @@ import (
 	"github.com/GearFramework/GophKeeper/internal/pkg/model"
 )
 
-// ViewEntity load entity from remote server and show metadata
-func (c *GkClient) ViewEntity() error {
+func (c *GkClient) viewEntity() error {
 	var err error
 	guid := ""
 	fmt.Print("Enter entity GUID: ")
